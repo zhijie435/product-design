@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>身份集成平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .login-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .login-input, .login-select, .send-verification-button, .login-button {
+            height: 44px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .login-select {
+            width: 100%;
+        }
+
+        .login-input {
+            width: calc(100% - 120px); /* Adjusted to fit button in the same row */
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        .send-verification-button {
+            width: 100px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .send-verification-button:hover {
+            background-color: #1e88e5;
+        }
+
+        .login-button {
+            width: 100%;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background-color: #1e88e5;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">身份集成平台</div>
+        <select id="login-method" class="login-select">
+            <option value="sms">短信验证码登录</option>
+            <option value="email">邮件验证码登录</option>
+            <option value="token">动态数字验证码登录</option>
+        </select>
+        <div class="input-group">
+            <input type="text" id="verification-code" class="login-input" placeholder="请输入验证码">
+            <button id="send-verification" class="send-verification-button">发送验证码</button>
+        </div>
+        <button id="login-button" class="login-button">登录</button>
+        <div id="info-text" class="info-text hidden">请在手机中打开数犀令牌钉钉小程序或App查看账号对应的动态验证码</div>
+    </div>
+
+    <script>
+        const loginMethodSelect = document.getElementById('login-method');
+        const verificationCodeInput = document.getElementById('verification-code');
+        const sendVerificationButton = document.getElementById('send-verification');
+        const loginButton = document.getElementById('login-button');
+        const infoText = document.getElementById('info-text');
+
+        function updateUI() {
+            const method = loginMethodSelect.value;
+            if (method === 'sms') {
+                verificationCodeInput.placeholder = '请输入短信验证码';
+                sendVerificationButton.classList.remove('hidden');
+                loginButton.textContent = '短信验证码登录';
+                infoText.classList.add('hidden');
+            } else if (method === 'email') {
+                verificationCodeInput.placeholder = '请输入邮件验证码';
+                sendVerificationButton.classList.remove('hidden');
+                loginButton.textContent = '邮件验证码登录';
+                infoText.classList.add('hidden');
+            } else if (method === 'token') {
+                verificationCodeInput.placeholder = '请输入动态数字验证码';
+                sendVerificationButton.classList.add('hidden');
+                loginButton.textContent = '动态数字验证码登录';
+                infoText.classList.remove('hidden');
+            }
+        }
+
+        loginMethodSelect.addEventListener('change', updateUI);
+
+        updateUI(); // Initialize UI on page load
+    </script>
+</body>
+</html>
